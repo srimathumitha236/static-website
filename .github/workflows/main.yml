@@ -1,33 +1,19 @@
-name: Deploy Static Website
+name: Deploy Static Site
 
 on:
   push:
     branches:
-      - main   # triggers on every push to main
+      - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js (optional)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-        # skip if no package.json
-
-      - name: Build project
-        run: npm run build
-        # skip if pure HTML/CSS project
+      - uses: actions/checkout@v3
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./   # or ./build if using build folder
+          publish_dir: ./
